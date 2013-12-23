@@ -2,7 +2,7 @@
 
   <%% if @<%= resource_name %>.errors.any? %>
     <div id="error_explanation">
-      <h2><%%= pluralize(@<%= resource_name %>.errors.count, "error") %> prohibited this department from being saved:</h2>
+      <h2><%%= pluralize(@<%= resource_name %>.errors.count, "error") %> prohibited this <%%= t("activerecord.models.<%= model_name %>")%> from being saved:</h2>
 
       <ul>
       <%% @<%= resource_name %>.errors.full_messages.each do |msg| %>
@@ -15,7 +15,7 @@
     <div class="group">
       <%%= f.label :<%= column.name %>, t("activerecord.attributes.<%= model_name.underscore %>.<%= column.name %>", :default => "<%= column.name.humanize %>"), :class => :label %>
       <%%= f.<%= column.field_type %> :<%= column.name %>, :class => '<%= column.field_type %>' %>
-      <span class="description"><%%= t("activerecord.attribute-descriptions.<%= model_name.underscore %>.<%= column.name %>")  %></span>
+      <span class="description"><%%= t("activerecord.attribute-descriptions.<%= model_name.underscore %>.<%= column.name %>", :default => "")  %></span>
     </div>
   <%- end -%>
   <div class="group navform wat-cf actions">

@@ -10,27 +10,33 @@
       <table class="table">
         <tr>
           <th class="first">ID</th>
-          <% unless columns.empty? -%>
-          <th>
-            <%%= t("activerecord.attributes.<%= singular_controller_routing_path %>.<%= columns.first.name %>", :default => t("activerecord.labels.<%= columns.first.name %>", :default => "<%= columns.first.name.capitalize %>")) %>
-          </th>
+          <% columns.each do |column| -%>
+            <% unless column.name == "id" -%>
+
+            <th>
+              <%%= t("activerecord.attributes.<%= singular_controller_routing_path %>.<%= column.name %>", :default => t("activerecord.labels.<%= column.name %>", :default => "<%= column.name.capitalize %>")) %>
+            </th>
+            <% end -%>
           <% end -%>
-          <th><%%= t("web-app-theme.created_at", :default => "Created at")  %></th>
           <th class="last">&nbsp;</th>
         </tr>
         <%% @<%= plural_resource_name %>.each do |<%= resource_name %>| -%>
+
         <tr class="<%%= cycle("odd", "even") %>">
           <td>
-            <%%= <%= resource_name %>.id %>
+            <%%= link_to <%= resource_name %>.id, <%= singular_controller_routing_path %>_path(<%= resource_name %>) %>
           </td>
-          <% unless columns.empty? -%>
-          <td>
-            <%%= link_to <%= resource_name %>.<%= columns.first.name %>, <%= singular_controller_routing_path %>_path(<%= resource_name %>) %>
-          </td>
+          <% columns.each do |column| -%>
+            <% unless column.name == "id" -%>
+            <td>
+              <% if column.name == "user_id" -%>
+                <%%= <%= resource_name %>.user.name_to_show if !<%=resource_name %>.user.nil? %>
+              <% else -%>
+                <%%= <%= resource_name %>.<%= column.name %> %>
+              <% end -%>
+            </td>
+            <% end -%>
           <% end -%>
-          <td>
-            <%%= <%= resource_name %>.created_at %>
-          </td>
           <td class="last">
             <%%= table_row_actions <%= resource_name %> %>
           </td>
